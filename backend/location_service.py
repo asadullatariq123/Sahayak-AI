@@ -1,24 +1,42 @@
-from geopy.geocoders import Nominatim
+import requests
 
-geolocator = Nominatim(user_agent="sahayak_ai")
+HEADERS = {
+    "User-Agent": "SahayakAI/1.0"
+}
 
-def get_coordinates(place):
+
+def get_coordinates(location_name):
     try:
-        location = geolocator.geocode(place)
 
-        if location:
+        url = "https://nominatim.openstreetmap.org/search"
+
+        response = requests.get(
+            url,
+            params={
+                "q": location_name,
+                "format": "json",
+                "limit": 1
+            },
+            headers=HEADERS,
+            timeout=15
+        )
+
+        data = response.json()
+
+        if len(data) == 0:
             return {
-                "latitude": location.latitude,
-                "longitude": location.longitude,
+                "latitude": None,
+                "longitude": None
             }
 
         return {
-            "latitude": None,
-            "longitude": None,
+            "latitude": float(data[0]["lat"]),
+            "longitude": float(data[0]["lon"])
         }
 
     except Exception:
+
         return {
             "latitude": None,
-            "longitude": None,
+            "longitude": None
         }

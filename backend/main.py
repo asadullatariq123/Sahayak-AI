@@ -1,3 +1,5 @@
+from email.mime import message
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -17,6 +19,7 @@ from location_service import get_coordinates
 from hospital_service import get_nearby_hospitals
 from weather_service import get_weather
 from risk_service import calculate_risk
+from location_extractor import extract_location
 
 # -----------------------------
 # FastAPI App
@@ -95,27 +98,11 @@ async def chat(message: str):
     # -----------------------------
     # Detect City
     # -----------------------------
-    supported_cities = [
-        "Tirupati",
-        "Chennai",
-        "Hyderabad",
-        "Bangalore",
-        "Mumbai",
-        "Delhi",
-        "Pune",
-        "Kolkata",
-        "Vijayawada",
-        "Nellore",
-        "Kadapa",
-        "Chittoor",
-    ]
+   # -----------------------------
+# Detect Location using Gemini AI
+# -----------------------------
 
-    detected_location = None
-
-    for city in supported_cities:
-        if city.lower() in message.lower():
-            detected_location = city
-            break
+  detected_location = extract_location(message)
 
     latitude = None
     longitude = None
