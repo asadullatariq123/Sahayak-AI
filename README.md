@@ -96,8 +96,7 @@ npm run dev
 # 🌐 Live Demo
 
 Frontend:
-(Add your Vercel URL)
-
+https://vercel.com/asadasad49987-9305s-projects/sahayak-ai
 Backend:
 https://sahayak-ai-frsu.onrender.com
 
